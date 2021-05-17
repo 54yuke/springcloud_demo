@@ -1,0 +1,23 @@
+server:
+  port: 8765
+spring:
+  application:
+    name: eureka-feign-client
+
+eureka:
+  client:
+  serviceUrl:
+  defaultZone: http://eureka-server:8761/eureka/
+
+
+
+
+feign:
+  hystrix:
+    #开启feign的hystrix支持,默认是false
+    enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
