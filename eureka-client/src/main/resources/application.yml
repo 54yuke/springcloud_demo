@@ -23,25 +23,51 @@ spring:
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
   redis:
-    #Redis数据库索引（默认为0）
-      database: 0
-      #连接超时时间（毫秒）
-      timeout: 5000
+    #password:
+      # Redis 默认数据库设置
+      #database: 0
+      # Redis Cluster集群节点配置
+      cluster:
+        # Redis 集群地址信息
+        nodes: 192.168.40.128:7001, 192.168.40.128:7002,192.168.40.128:7000
+        # 获取失败 最大重定向次数
+        max-redirects: 3
+      #如果用以前的jedis，可以把下面的lettuce换成jedis即可
+      lettuce:
+        pool:
+          # 连接池最大连接数默认值为8
+          max-active: 1000
+          # 连接池最大阻塞时间（使用负值表示没有限制）默认值为-1
+          max-wait: -1
+          # 连接池中最大空闲连接数默认值为8
+          max-idle: 10
+          # 连接池中的最小空闲连接数，默认值为0
+          min-idle: 10
+     #####################################################################
       # Redis服务器地址
-      host: 192.168.40.128
+      #host: 192.168.40.128
       # Redis服务器连接端口
-      port: 6379
+      #port: 6379
       # Redis服务器连接密码（默认为空）
-      password:
+      #password: 111111
+      #Redis数据库索引（默认为0）
+      #database: 0
+      #连接超时时间（毫秒）
+      #timeout: 5000
       # 连接池最大连接数（使用负值表示没有限制）
-      pool:
-        max-active: 8
-        # 连接池最大阻塞等待时间（使用负值表示没有限制）
-        max-wait: 3000
-        # 连接池中的最大空闲连接
-        max-idle: 20
-        # 连接池中的最小空闲连接
-        min-idle: 2
+    #pool:
+    #max-active: 8
+      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+    #max-wait: 3000
+      # 连接池中的最大空闲连接
+    #max-idle: 20
+      # 连接池中的最小空闲连接
+    #min-idle: 2
+      #####################################################################
+
+
+
+
 logging:
   level:
     com:

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="eureka-feign-client" />
+        <module name="eureka-client" />
+        <module name="eureka-server" />
+        <module name="eureka-zuul" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="eureka-client" target="1.8" />
+      <module name="eureka-feign-client" target="1.8" />
+      <module name="eureka-ribon-client" target="1.8" />
+      <module name="eureka-server" target="1.8" />
+      <module name="eureka-zuul" target="1.8" />
+      <module name="security" target="1.8" />
+      <module name="springcloud_demo" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="eureka-client" options="" />
+      <module name="eureka-feign-client" options="" />
+      <module name="eureka-ribon-client" options="" />
+      <module name="eureka-server" options="" />
+      <module name="eureka-zuul" options="" />
+      <module name="security" options="" />
+      <module name="springcloud_demo" options="-parameters" />
+    </option>
+  </component>
+</project>

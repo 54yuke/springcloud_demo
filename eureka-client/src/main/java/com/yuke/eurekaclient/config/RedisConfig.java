@@ -1,7 +1,12 @@
 package com.yuke.eurekaclient.config;
 
+
 import java.lang.reflect.Method;
+import java.util.Arrays;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -14,24 +19,57 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import redis.clients.jedis.JedisCluster;
 
+@Configuration
+public class RedisConfig extends CachingConfigurerSupport {
+    @Bean
+    public RedisTemplate<String, Object>  redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<String, Object>  template = new RedisTemplate<>();
+        template.setConnectionFactory(redisConnectionFactory);
+//		Jackson2JsonRedisSerializer<Object> serializer = new Jackson2JsonRedisSerializer<>(Object.class);
+        //对象的序列化，GenericJackson2JsonRedisSerializer实现了RedisSerializer接口
+        GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer();
+        template.setDefaultSerializer(serializer);
+        return template;
+    }
 
+    /**
+     * 重写key的生成策略，用【类名+方法名+参数名】这样就可以保证key不为空
+     * @return
+     */
+    @Bean
+    @Override
+    public KeyGenerator keyGenerator() {
+        return (target, method, objects) -> {
+            StringBuilder sb = new StringBuilder();
+            sb.append(target.getClass().getName()).append(".").append(method.getName()).append(Arrays.toString(objects));
+            return sb.toString();
+        };
+    }
+}
+/*
 @Configuration
 @EnableCaching
 @RefreshScope
 public class RedisConfig  extends CachingConfigurerSupport{
-    @Value("${spring.redis.host}")
+   */
+/* @Value("${spring.redis.host}")
     private String host;
     @Value("${spring.redis.port}")
-    private int port;
+    private int port;*//*
+
     @Value("${spring.redis.timeout}")
     private int timeout;
-    @Value("${spring.redis.password}")
-    private String password;
+*/
+/*    @Value("${spring.redis.password}")
+    private String password;*//*
+
     @Value("${spring.redis.pool.max-active}")
     private int maxActive;
     @Value("${spring.redis.pool.max-wait}")
@@ -102,3 +140,4 @@ public class RedisConfig  extends CachingConfigurerSupport{
         template.setValueSerializer(jackson2JsonRedisSerializer);
     }
 }
+*/
